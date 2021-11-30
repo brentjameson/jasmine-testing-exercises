@@ -9,7 +9,7 @@ window.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// let calculator = document.querySelector('.calc-container');
+let calculator = document.querySelector('.calc-container');
 
 function getCurrentUIValues() {
   return {
@@ -23,9 +23,16 @@ function getCurrentUIValues() {
 // 
 // Put some default values in the inputs
 // Call a function to calculate the current monthly payment
+ // Get the inputs from the DOM (in an object)
 function setupIntialValues() {
-  // Get the inputs from the DOM (in an object)
-  getCurrentUIValues()
+  const values = { amount: 10000, years: 10, rate: 4.5};
+  const amountUI = document.querySelector('#loan-amount');
+  amountUI.value = values.amount;
+  const yearsUI = document.querySelector('#loan-years');
+  yearsUI.value = values.years;
+  const rateUI = document.querySelector('#loan-rate');
+  rateUI.value = values.rate;
+  update();
   }
 
 
@@ -33,10 +40,7 @@ function setupIntialValues() {
 // Update the monthly payment
 function update() {
   const data = getCurrentUIValues();
-  // console.log('data', data);
-  const monthlyRepayments = calculateMonthlyPayment(data);
-  // console.log('monthlyRepayments', monthlyRepayments);
-  return data;
+  updateMonthly(calculateMonthlyPayment(data));
 }
 
 // Given an object of values (a value has amount, years and rate ),
@@ -51,60 +55,9 @@ function calculateMonthlyPayment(values) {
    ).toFixed(2);
 }
 
-// Given a string representing the monthly payment value,
-// update the UI to show the value.
+// // Given a string representing the monthly payment value,
+// // update the UI to show the value.
 function updateMonthly(monthly) {
-  console.log(calculateMonthlyPayment());
+  const monthlyUI = document.querySelector('#monthly-payment');
+  monthlyUI.innerText = "$" + monthly;
 }
-
-
-
-
-
-
-
-
-
-function myForEach(arr, callback) {
-  for (i = 0; i < arr.length; i++) {
-    callback(arr[i]);
-  }
-}
-
-let colors = ['teal', 'purple'];
-
-// myForEach(colors, function(color){
-//   console.log(color.toUpperCase());
-// });
-
-function subtract(x,y) {
-  return x -y;
-}
-
-function doMath(a,b,mathFunc) {
-  return mathFunc(a,b);
-}
-
-// -accept correct parameters - arr as first argument and then a callback
-// -make a new empty arr
-// -loop over arr passed in
-// - call the callback once per item in arr
-// -take the return value, push it onto the arr
-// -return new arr at end
-
-function myMap(arr, callback) {
-  let mappedArray = [];
-  for (i = 0; i < arr.length; i++) {
-    const val = callback(arr[i], i, arr);
-    mappedArray.push(val);
-  }
-  return mappedArray;
-}
-
-const colorsCaps = myMap(colors, function(color){
-  return color.toUpperCase();
-})
-
-const repeatedStrings = myMap(['a', 'b', 'c', 'd'], function(str, idx){
-  return str.repeat(idx);
-})
